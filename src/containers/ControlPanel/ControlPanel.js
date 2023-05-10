@@ -194,7 +194,7 @@ const Delete = ({ selectedShapeId, deleteSelectedShape }) => {
 const UndoRedo = ({ undo, redo, repeat, canUndo, canRedo, canRepeat }) => {
   return (
     <div className="Control">
-      <h3>Undo / Redo:</h3>
+      <h3>Undo / Redo / Repeat:</h3>
       <div className="UndoRedoButtonsContainer">
         <button onClick={() => undo()} disabled={!canUndo()}>
           <ImUndo className="ButtonIcon" />
