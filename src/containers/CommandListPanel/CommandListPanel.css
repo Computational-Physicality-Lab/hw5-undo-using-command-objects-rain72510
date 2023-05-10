@@ -1,0 +1,49 @@
+.CommandListPanel {
+  position: absolute;
+  top: 10px;
+  left: 1150px;
+
+  box-sizing: border-box;
+  border: 1px solid black;
+  background-color: white;
+
+  width: 150px;
+  height: 700px;
+  overflow-y: scroll;
+  
+}
+
+.CommandListPanel::-webkit-scrollbar {
+  /* display: none; */
+  width: 3px;
+}
+
+.CommandListPanel::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px #03ff1320;
+}
+
+.CommandListPanel::-webkit-scrollbar-thumb {
+  background-color: #03ff1360;
+  border: 0.2px solid #03ff1330;
+}
+
+.Command {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.doneCommand {
+  background-color: #eef3ee;
+}
+
+.currentCommand {
+  background-color: #010b13;
+}
+
+.currentCommand > p {
+  color: #03ff13;
+}
+
+.undoneCommand {
+  background-color: #999b99;
+}

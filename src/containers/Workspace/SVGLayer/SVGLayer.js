@@ -17,6 +17,7 @@ const SVGLayer = () => {
     shapesMap,
     addShape,
     moveShape,
+    setMovingObjectMouseDown,
     selectedShapeId,
     selectShape,
   } = useContext(ControlContext);
@@ -59,6 +60,7 @@ const SVGLayer = () => {
         setDraggingShape(
           shapesMap[shapes.filter((shapeId) => shapeId === targetId)[0]]
         );
+        setMovingObjectMouseDown(true, targetId, { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
       }
     }
   };
@@ -119,6 +121,8 @@ const SVGLayer = () => {
       setInitPoint({ x: undefined, y: undefined });
       setCurrPoint({ x: undefined, y: undefined });
     } else {
+      const targetId = e.target.id;
+      setMovingObjectMouseDown(false, targetId, { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
       setDragging(false);
       setDraggingShape(undefined);
       setMouseDownPoint({ x: undefined, y: undefined });

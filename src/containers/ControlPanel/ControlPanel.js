@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { FaTrash } from "react-icons/fa";
-import { ImUndo, ImRedo } from "react-icons/im";
+import { ImUndo, ImRedo, ImSpinner11 } from "react-icons/im";
 
 import CursorImg from "../../assets/img/cursor.png";
 import LineImg from "../../assets/img/line.png";
@@ -145,7 +145,7 @@ const FillColor = ({ currFillColor, changeCurrFillColor, currBorderColor }) => {
   );
 };
 
-const BorderWidth = ({ currBorderWidth, changeCurrBorderWidth }) => {
+const BorderWidth = ({ currBorderWidth, changeCurrBorderWidth, setBorderWidthMouseDown, getBorderWidthMouseDown }) => {
   return (
     <div className="Control">
       <h3>Border width:</h3>
@@ -158,6 +158,12 @@ const BorderWidth = ({ currBorderWidth, changeCurrBorderWidth }) => {
           min={1}
           max={30}
           value={currBorderWidth}
+          onMouseDown={() => {
+            if (!getBorderWidthMouseDown()) setBorderWidthMouseDown(true, currBorderWidth);
+          }}
+          onMouseUp={() => {
+            setBorderWidthMouseDown(false, currBorderWidth);
+          }}
         />
         &nbsp;&nbsp;&nbsp;
         <span>{currBorderWidth}</span>
@@ -185,18 +191,22 @@ const Delete = ({ selectedShapeId, deleteSelectedShape }) => {
   );
 };
 
-const UndoRedo = ({ undo, redo }) => {
+const UndoRedo = ({ undo, redo, repeat, canUndo, canRedo, canRepeat }) => {
   return (
     <div className="Control">
       <h3>Undo / Redo:</h3>
       <div className="UndoRedoButtonsContainer">
-        <button onClick={() => undo()}>
+        <button onClick={() => undo()} disabled={!canUndo()}>
           <ImUndo className="ButtonIcon" />
           Undo
-        </button>{" "}
-        <button onClick={() => redo()}>
+        </button>
+        <button onClick={() => redo()} disabled={!canRedo()}>
           <ImRedo className="ButtonIcon" />
           Redo
+        </button>
+        <button onClick={() => repeat()} disabled={!canRepeat()}>
+          <ImSpinner11 className="ButtonIcon" />
+          Repeat
         </button>
       </div>
     </div>
@@ -214,10 +224,16 @@ const ControlPanel = () => {
     changeCurrFillColor,
     currBorderWidth,
     changeCurrBorderWidth,
+    setBorderWidthMouseDown,
+    getBorderWidthMouseDown,
     selectedShapeId,
     deleteSelectedShape,
     undo,
     redo,
+    repeat,
+    canUndo,
+    canRedo,
+    canRepeat,
   } = useContext(ControlContext);
 
   return (
@@ -237,6 +253,8 @@ const ControlPanel = () => {
       <BorderWidth
         currBorderWidth={currBorderWidth}
         changeCurrBorderWidth={changeCurrBorderWidth}
+        setBorderWidthMouseDown={setBorderWidthMouseDown}
+        getBorderWidthMouseDown={getBorderWidthMouseDown}
       />
       <FillColor
         currFillColor={currFillColor}
@@ -247,7 +265,7 @@ const ControlPanel = () => {
         selectedShapeId={selectedShapeId}
         deleteSelectedShape={deleteSelectedShape}
       />
-      <UndoRedo undo={undo} redo={redo} />
+      <UndoRedo undo={undo} redo={redo} repeat={repeat} canUndo={canUndo} canRedo={canRedo} canRepeat={canRepeat}/>
     </div>
   );
 };

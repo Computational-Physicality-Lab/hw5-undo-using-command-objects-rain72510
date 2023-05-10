@@ -8,19 +8,28 @@ const controlContext = createContext({
   changeCurrBorderColor: () => {},
   currBorderWidth: 1,
   changeCurrBorderWidth: () => {},
+  setBorderWidthMouseDown: () => {},
+  getBorderWidthMouseDown: () => {},
   currFillColor: "",
   changeCurrFillColor: () => {},
 
   shapes: [],
   shapesMap: {},
+  commandList: [],
+  currCommand: -1,
   addShape: () => {},
   moveShape: () => {},
   selectedShapeId: "", // a string or undefined
   selectShape: () => {},
   deleteSelectedShape: () => {},
+  setMovingObjectMouseDown: () => {},
 
   undo: () => {},
   redo: () => {},
+  repeat: () => {},
+  canUndo: () => {},
+  canRedo: () => {},
+  canRepeat: () => {},
 });
 
 export default controlContext;

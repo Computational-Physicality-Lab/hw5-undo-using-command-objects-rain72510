@@ -1,10 +1,10 @@
 import CommandObject from "./CommandObject";
 
-export default class ChangeFillColorCommandObject extends CommandObject {
-  constructor(undoHandler, state, fillColor, changeCurrFillColor) {
-    super(undoHandler, true, changeCurrFillColor);
+export default class ChangeBorderColorCommandObject extends CommandObject {
+  constructor(undoHandler, state, borderColor, changeCurrBorderColor) {
+    super(undoHandler, true, changeCurrBorderColor);
     this.selectedObj = state.shapesMap[state.selectedShapeId];
-    this.fillColor = fillColor;
+    this.borderColor = borderColor;
   }
 
   /* override to return true if this command can be executed,
@@ -21,25 +21,22 @@ export default class ChangeFillColorCommandObject extends CommandObject {
   execute() {
     if (this.selectedObj !== null) {
       this.targetObject = this.selectedObj; // global variable for selected
-      this.oldValue = this.targetObject.fillColor; // object's current color
-      this.newValue = this.fillColor; // get the color widget's current color
-      this.targetObject.fillColor = this.newValue; // actually change
-      this.verbose = `Change ${this.targetObject.type} border width to ${this.newValue}`;
-
-
+      this.oldValue = this.targetObject.borderColor; // object's current color
+      this.newValue = this.borderColor; // get the color widget's current color
+      this.targetObject.borderColor = this.newValue; // actually change
+      this.verbose = `Change ${this.targetObject.type} border color to ${this.newValue}`;
       // Note that this command object must be a NEW command object so it can be
       // registered to put it onto the stack
       if (this.addToUndoStack) this.undoHandler.registerExecution(this);
-      // console.log(this);
     }
   }
 
   /* override to undo the operation of this command
    */
   undo() {
-    this.targetObject.fillColor = this.oldValue;
+    this.targetObject.borderColor = this.oldValue;
     // maybe also need to fix the palette to show this object's color?
-    this.undoHandler.updateShape(this.targetObject.id, { 'fillColor': this.oldValue });
+    this.undoHandler.updateShape(this.targetObject.id, { 'borderColor': this.oldValue });
   }
 
   /* override to redo the operation of this command, which means to
@@ -48,9 +45,9 @@ export default class ChangeFillColorCommandObject extends CommandObject {
    * can be undone can be redone, so there is no need for a canRedo.
    */
   redo() {
-    this.targetObject.fillColor = this.newValue;
+    this.targetObject.borderColor = this.newValue;
     // maybe also need to fix the palette to show this object's color?
-    this.undoHandler.updateShape(this.targetObject.id, { 'fillColor': this.newValue });
+    this.undoHandler.updateShape(this.targetObject.id, { 'borderColor': this.newValue });
   }
 
   /* override to return true if this operation can be repeated in the
@@ -65,6 +62,6 @@ export default class ChangeFillColorCommandObject extends CommandObject {
    * selectedObject.
    */
   repeat() {
-    this.repeatMethod(this.fillColor);
+    this.repeatMethod(this.borderColor);
   }
 }

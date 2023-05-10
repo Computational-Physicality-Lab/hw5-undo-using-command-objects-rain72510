@@ -4,12 +4,14 @@
  * command objects should extend
  */
 export default class CommandObject {
-  constructor(controls, addToUndoStack = true) {
+  constructor(controls, addToUndoStack = true, repeatMethod = () => {}) {
     this.undoHandler = controls;
     this.addToUndoStack = addToUndoStack; // is this the kind of operations that is queued?
     this.targetObject = undefined; // object this command affected
     this.newValue = undefined; // new value used by the command
     this.oldValue = undefined; // previous (old) value for the object
+    this.verbose = '';
+    this.repeatMethod = repeatMethod;
   }
 
   /* override to return true if this command can be executed,
